@@ -1,12 +1,36 @@
 [project]
-name = "mastra-orchestration"
-version = "0.1.0"
-description = "Mastra multi-agent orchestration rewritten for Hermes sub-agents."
-requires-python = ">=3.11"
+name = "mastra-ai-agents"
+version = "2.0.0"
+description = "ASI swarm orchestrator for Hermes sub-agents: goal to graph to waves, with a blackboard, consensus and a policy that learns across runs."
 readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "imanujela" }]
+keywords = ["agents", "orchestration", "swarm", "mastra", "hermes", "workflow", "supervisor", "subagents", "asi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "ruff>=0.6,<1"]
 
 [project.scripts]
-mastra-orchestrate = "mastra_orchestration.cli:main"
+mastra-orchestrate = "mastra_ai_agents.cli:main"
+mai = "mastra_ai_agents.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/imanujela/mastra-ai-agents"
+Changelog = "https://github.com/imanujela/mastra-ai-agents/blob/main/CHANGES.md"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -14,3 +38,16 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+# Prompt strings in swarm.py are data, not prose; 120 keeps them readable without splitting a
+# sentence across a concatenation, and the tests carry graph JSON on one line.
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -1,0 +1,56 @@
+{
+  "id": "research-swarm",
+  "roster": {
+    "scout": { "own_memory": true },
+    "analyst": { "own_memory": false },
+    "writer": { "own_memory": false }
+  },
+  "chain": [
+    {
+      "op": "then",
+      "step": {
+        "id": "plan",
+        "agent": "scout",
+        "instruction": "Split the brief into 3 to 5 targets and return signal.targets as a list of strings."
+      }
+    },
+    {
+      "op": "foreach",
+      "over": "targets",
+      "max_parallel": 4,
+      "steps": [
+        {
+          "id": "dig",
+          "agent": "scout",
+          "instruction": "Research {{item}}. Return signal.sources with at least two citations.",
+          "retries": 1,
+          "timeout_s": 600
+        }
+      ]
+    },
+    {
+      "op": "loop",
+      "until": { "verdict": "pass" },
+      "max_iterations": 3,
+      "steps": [
+        {
+          "id": "critique",
+          "agent": "analyst",
+          "instruction": "Score the merged notes. Return signal.verdict = pass or revise."
+        },
+        {
+          "id": "revise",
+          "agent": "writer",
+          "instruction": "Apply the critique and tighten the draft."
+        }
+      ]
+    },
+    {
+      "op": "branch",
+      "cases": [
+        { "when": { "verdict": "pass" }, "step": { "id": "ship", "agent": "writer", "instruction": "Finalise the draft and hand it back." } }
+      ],
+      "default": { "id": "escalate", "agent": "analyst", "instruction": "Report the unresolved gaps to the supervisor." }
+    }
+  ]
+}

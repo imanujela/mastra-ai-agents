@@ -1,20 +1,28 @@
 {
   "id": "content",
   "chain": [
-    {"op": "then", "step": {"id": "research", "agent": "researcher", "instruction": "Find three sources."}},
+    {
+      "op": "then",
+      "step": {
+        "id": "research",
+        "agent": "researcher",
+        "instruction": "Find three sources. Return signal.angle = the strongest one."
+      }
+    },
     {
       "op": "parallel",
       "steps": [
-        {"id": "seo", "agent": "analyst", "instruction": "Check SEO."},
-        {"id": "tone", "agent": "analyst", "instruction": "Check tone."}
+        { "id": "seo", "agent": "analyst", "instruction": "Check SEO. Return signal.length = long or short." },
+        { "id": "tone", "agent": "analyst", "instruction": "Check tone against the thread's working memory." }
       ]
     },
     {
       "op": "branch",
       "cases": [
-        {"when": {"length": "long"}, "step": {"id": "deep", "agent": "writer", "instruction": "Write the long draft."}},
-        {"when": {"length": "short"}, "step": {"id": "quick", "agent": "writer", "instruction": "Write the short draft."}}
-      ]
+        { "when": { "length": "long" }, "step": { "id": "deep", "agent": "writer", "instruction": "Write the long draft." } },
+        { "when": { "length": "short" }, "step": { "id": "quick", "agent": "writer", "instruction": "Write the short draft." } }
+      ],
+      "default": { "id": "probe", "agent": "analyst", "instruction": "No length signal arrived. Read the sources and pick one." }
     }
   ]
 }

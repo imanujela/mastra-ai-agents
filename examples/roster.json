@@ -1,0 +1,6 @@
+{
+  "scout": { "own_memory": true },
+  "researcher": { "own_memory": false },
+  "analyst": { "own_memory": false },
+  "writer": { "own_memory": false }
+}
