@@ -1,0 +1,20 @@
+{
+  "id": "content",
+  "chain": [
+    {"op": "then", "step": {"id": "research", "agent": "researcher", "instruction": "Find three sources."}},
+    {
+      "op": "parallel",
+      "steps": [
+        {"id": "seo", "agent": "analyst", "instruction": "Check SEO."},
+        {"id": "tone", "agent": "analyst", "instruction": "Check tone."}
+      ]
+    },
+    {
+      "op": "branch",
+      "cases": [
+        {"when": {"length": "long"}, "step": {"id": "deep", "agent": "writer", "instruction": "Write the long draft."}},
+        {"when": {"length": "short"}, "step": {"id": "quick", "agent": "writer", "instruction": "Write the short draft."}}
+      ]
+    }
+  ]
+}

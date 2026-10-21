@@ -1,0 +1,16 @@
+[project]
+name = "mastra-orchestration"
+version = "0.1.0"
+description = "Mastra multi-agent orchestration rewritten for Hermes sub-agents."
+requires-python = ">=3.11"
+readme = "README.md"
+
+[project.scripts]
+mastra-orchestrate = "mastra_orchestration.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
